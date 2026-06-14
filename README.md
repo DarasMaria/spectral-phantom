@@ -1,4 +1,4 @@
-# Geometric-Spectral Light Transport
+# Geometric Spectral Light Transport
 ### A Unified Numerical Framework for Tissue Phantoms and Planetary Photometry
 
 > **Photon diffusion through biological tissue and reflected-light inversion from planetary surfaces are governed by the same class of elliptic operators on curved geometries. This project builds a single numerical framework that solves both.**
@@ -15,7 +15,7 @@ In **diffuse optical tomography**, a photon fluence field Φ(r) inside scatterin
 −∇ · (D(r) ∇Φ(r)) + μ_a(r) Φ(r) = S(r)
 ```
 
-In **planetary photometry**, the disk-integrated reflected flux F(α) from an orbiting body is computed by integrating a bidirectional reflectance function over a curved illuminated surface — the same class of elliptic boundary-value problem, with the surface geometry encoded by the same Laplace-Beltrami operator.
+In **planetary photometry**, the disk-integrated reflected flux F(α) from an orbiting body is computed by integrating a bidirectional reflectance function over a curved illuminated surface, the same class of elliptic boundary-value problem, with the surface geometry encoded by the same Laplace-Beltrami operator.
 
 Both problems share:
 - A **curved surface geometry** described by the discrete Laplace-Beltrami operator
@@ -45,7 +45,7 @@ This project demonstrates that kinship explicitly, in working code.
 
 ## Module Overview
 
-### Module 1 — Geometric Surface Mesh
+### Module 1, Geometric Surface Mesh
 **Files:** `m1_geometry/mesh.py`, `m1_geometry/curvature.py`
 
 Constructs a triangulated ellipsoidal surface phantom and computes the **discrete Laplace-Beltrami operator** using cotangent weights:
@@ -60,7 +60,7 @@ where α_ij and β_ij are the angles opposite edge (i,j) in the two adjacent tri
 H_i = (1 / 2A_i) |L · V|_i
 ```
 
-This operator is the central mathematical object of the entire project — it appears in both the tissue diffusion solver and implicitly in the spherical harmonic basis used for inversion.
+This operator is the central mathematical object of the entire project, it appears in both the tissue diffusion solver and implicitly in the spherical harmonic basis used for inversion.
 
 **Key maths:** Differential geometry, cotangent Laplacian, first and second fundamental forms, Gaussian and mean curvature.
 
@@ -68,7 +68,7 @@ This operator is the central mathematical object of the entire project — it ap
 
 ---
 
-### Module 2 — Radiative Transfer Solver
+### Module 2, Radiative Transfer Solver
 **Files:** `m2_radiative/solver.py`, `m2_radiative/fluence.py`
 
 Solves the **steady-state photon diffusion equation** inside the tissue phantom using a finite-difference sparse linear system. Tissue optical properties at 800 nm:
@@ -81,7 +81,7 @@ D = 1 / (3(μ_a + μ_s'))   (diffusion coefficient)
 
 The voxelised mesh is filled using `trimesh`'s flood-fill algorithm to produce a solid interior. Outside voxels are assigned Dirichlet boundary conditions (Φ = 0). The resulting sparse system is solved with `scipy.sparse.linalg.spsolve`.
 
-The output is a 3D photon fluence field showing the characteristic diffuse glow — bright at the source, decaying exponentially toward the boundary.
+The output is a 3D photon fluence field showing the characteristic diffuse glow, bright at the source, decaying exponentially toward the boundary.
 
 **Key maths:** Elliptic PDE, finite differences, sparse linear algebra, Dirichlet boundary conditions.
 
@@ -89,7 +89,7 @@ The output is a 3D photon fluence field showing the characteristic diffuse glow 
 
 ---
 
-### Module 3 — Orbital Light Curve
+### Module 3, Orbital Light Curve
 **Files:** `m3_orbital/kepler.py`, `m3_orbital/lightcurve.py`
 
 Propagates a Keplerian orbit using a **4th-order Runge-Kutta integrator**:
@@ -105,7 +105,7 @@ At each orbital position the planet-star-observer geometry is computed, and the 
 F(α) = A_g (R/r)² [sin α + (π − α) cos α] / π
 ```
 
-This integral over the illuminated hemisphere is structurally identical to the exit fluence integral in Module 2 — both are surface integrals of a directional kernel over a curved body. Synthetic Gaussian noise is added to simulate observational data.
+This integral over the illuminated hemisphere is structurally identical to the exit fluence integral in Module 2, both are surface integrals of a directional kernel over a curved body. Synthetic Gaussian noise is added to simulate observational data.
 
 **Key maths:** Keplerian orbital mechanics, RK4 integration, Lambertian BRDF, phase angle geometry, energy conservation verification.
 
@@ -113,7 +113,7 @@ This integral over the illuminated hemisphere is structurally identical to the e
 
 ---
 
-### Module 4 — Spectral Inversion
+### Module 4, Spectral Inversion
 **Files:** `m4_inversion/invert.py`, `m4_inversion/lcurve.py`
 
 Given the noisy synthetic light curve, recovers the planetary phase function by solving the **Tikhonov-regularised least squares problem**:
@@ -122,7 +122,7 @@ Given the noisy synthetic light curve, recovers the planetary phase function by 
 min_a  ||K a − F_obs||² + λ ||a||²
 ```
 
-The forward operator K is built from **Legendre polynomial basis functions** P_n(cos α), the natural basis for planetary phase curves. The regularisation parameter λ is selected via the **L-curve method** — a log-log plot of residual norm versus solution norm, with the optimal λ at the corner.
+The forward operator K is built from **Legendre polynomial basis functions** P_n(cos α), the natural basis for planetary phase curves. The regularisation parameter λ is selected via the **L-curve method**, a log-log plot of residual norm versus solution norm, with the optimal λ at the corner.
 
 This is the same class of ill-posed inverse problem that appears in diffuse optical tomography image reconstruction, medical CT, and exoplanet atmosphere retrieval.
 
@@ -203,10 +203,10 @@ All figures are saved to `data/`.
 
 Each module has a one-line reveal that reinforces the cross-disciplinary connection:
 
-- **M1** — The same surface geometry describes a tumour boundary and a planetary body
-- **M2** — The diffusion equation governing light in tissue is structurally identical to the radiative transfer equation governing light from a star
-- **M3** — A Keplerian orbit is a boundary condition on the same elliptic problem
-- **M4** — Recovering a tissue optical property map and recovering a planetary phase curve are the same ill-posed inverse problem
+- **M1**, The same surface geometry describes a tumour boundary and a planetary body
+- **M2**, The diffusion equation governing light in tissue is structurally identical to the radiative transfer equation governing light from a star
+- **M3**, A Keplerian orbit is a boundary condition on the same elliptic problem
+- **M4**, Recovering a tissue optical property map and recovering a planetary phase curve are the same ill-posed inverse problem
 
 ---
 
@@ -214,7 +214,7 @@ Each module has a one-line reveal that reinforces the cross-disciplinary connect
 
 This project grew from the observation that biomedical optics and observational astronomy share a deep mathematical substrate that is rarely made explicit, because the two communities almost never interact. The author holds degrees in biomedical engineering and electrical engineering and is completing an MSc in Astronomy — a combination that makes the structural analogy visible.
 
-The project is not a simulation of either physical system in isolation. It is a demonstration that a single mathematical framework — elliptic operators on curved surfaces, regularised by spectral decomposition — governs photon transport in both the microscopic (tissue) and macroscopic (planetary) regimes.
+The project is not a simulation of either physical system in isolation. It is a demonstration that a single mathematical framework, elliptic operators on curved surfaces, regularised by spectral decomposition, governs photon transport in both the microscopic (tissue) and macroscopic (planetary) regimes.
 
 ---
 
