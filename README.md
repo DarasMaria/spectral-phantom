@@ -204,17 +204,24 @@ All figures are saved to `data/`.
 Each module has a one-line reveal that reinforces the cross-disciplinary connection:
 
 - **M1**, The same surface geometry describes a tumour boundary and a planetary body
-- **M2**, The diffusion equation governing light in tissue is structurally identical to the radiative transfer equation governing light from a star
-- **M3**, A Keplerian orbit is a boundary condition on the same elliptic problem
+- **M2**, Both tissue diffusion and planetary photometry involve operators that map 
+  hidden physical properties to observable light distributions on curved geometries
+- **M3**, Keplerian orbital dynamics determine the viewing geometry that parameterises 
+  the planetary light curve, connecting orbital mechanics to the geometric framework
 - **M4**, Recovering a tissue optical property map and recovering a planetary phase curve are the same ill-posed inverse problem
 
 ---
 
 ## Background and Motivation
 
-This project grew from the observation that biomedical optics and observational astronomy share a deep mathematical substrate that is rarely made explicit, because the two communities almost never interact. The author holds degrees in biomedical engineering and electrical engineering and is completing an MSc in Astronomy — a combination that makes the structural analogy visible.
+This project grew from the observation that biomedical optics and observational astronomy share a deep mathematical substrate that is rarely made explicit because the two communities almost never interact. I hold degrees in biomedical engineering and electrical engineering and I am currenlty completing an MSc in Astronomy. This is a combination that makes the structural analogy visible.
 
-The project is not a simulation of either physical system in isolation. It is a demonstration that a single mathematical framework, elliptic operators on curved surfaces, regularised by spectral decomposition, governs photon transport in both the microscopic (tissue) and macroscopic (planetary) regimes.
+The project is not a simulation of either physical system in isolation. It is a demonstration that both biomedical imaging and planetary light-curve inversion 
+can be understood as geometry-driven, ill-posed inverse problems sharing the same 
+mathematical toolkit, being differential geometry, spectral methods, sparse numerical linear 
+algebra and regularised optimisation. The connection between the Laplace-Beltrami 
+operator and the Legendre inversion basis is presented conceptually in the current 
+implementation, with a direct spectral unification planned for v2.
 
 ---
 
@@ -231,6 +238,20 @@ The project is not a simulation of either physical system in isolation. It is a 
 | MATLAB | Prototype diffusion solver (separate branch) |
 
 ---
+
+## Roadmap — v2
+
+The current implementation establishes the conceptual and computational analogy. 
+A stronger unification is planned:
+
+- Use the same cotangent Laplace-Beltrami operator on both the tissue phantom mesh 
+  and a spherical planetary mesh
+- Compute Laplace-Beltrami eigenmodes and expand both the photon fluence field and 
+  the planetary albedo map in the same spectral basis
+- Replace the Legendre polynomial inversion with spherical harmonics, the natural 
+  eigenfunctions of the Laplace-Beltrami operator on the sphere
+- At that point both modules become manifestations of the same spectral inverse problem 
+  on a curved surface, not merely analogous ones
 
 ## References
 
